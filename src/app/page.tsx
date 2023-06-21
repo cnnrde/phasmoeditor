@@ -21,6 +21,12 @@ export default function Home() {
               >
                 Download Save File
               </label>
+              <label
+                htmlFor="saveFileOutputUnencrypted"
+                className="bg-purple-500 hover:bg-purple-600 transition-colors text-white font-normal py-2 px-4 rounded-lg cursor-pointer"
+              >
+                Download Save File (unencrypted)
+              </label>
               <FileSaver data={saveData} />
               <label
                 htmlFor="clearFile"
@@ -43,13 +49,21 @@ export default function Home() {
 
         {!saveData && (
           <div className="flex flex-col items-center justify-center">
-            <label
-              htmlFor="saveFileInput"
-              className="bg-blue-500 hover:bg-blue-600 transition-colors text-white font-normal py-2 px-4 rounded-lg cursor-pointer"
-            >
-              Upload Save File
-            </label>
-            <FileLoader stateSetter={setSaveData} />
+            <div className="flex gap-2 mb-4">
+              <label
+                htmlFor="saveFileInput"
+                className="bg-blue-500 hover:bg-blue-600 transition-colors text-white font-normal py-2 px-4 rounded-lg cursor-pointer"
+              >
+                Upload Save File
+              </label>
+              <label
+                htmlFor="saveFileInputUnencrypted"
+                className="bg-purple-500 hover:bg-purple-600 transition-colors text-white font-normal py-2 px-4 rounded-lg cursor-pointer"
+              >
+                Upload Save File (unencrypted)
+              </label>
+              <FileLoader stateSetter={setSaveData} />
+            </div>
             <span className="text-sm mt-4">
               On Windows, save data can be located at{' '}
               <code className="bg-gray-900 rounded-md p-1">

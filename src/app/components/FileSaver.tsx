@@ -20,7 +20,7 @@ const FileSaver = (props: FileSaverProps) => {
         id="saveFileOutput"
         className="hidden"
         onClick={() => {
-          const dataString = JSON.stringify(props.data)
+          const dataString = JSON.stringify(props.data, null, 2)
           const PASSWORD = 't36gref9u84y7f43g'
           const iv = crypto.randomBytes(16)
           const cipher = crypto.createCipheriv(
@@ -38,6 +38,23 @@ const FileSaver = (props: FileSaverProps) => {
           const a = document.createElement('a')
           a.href = url
           a.download = 'SaveFile.txt'
+          document.body.appendChild(a)
+          a.click()
+          document.body.removeChild(a)
+          URL.revokeObjectURL(url)
+        }}
+      />
+      <input
+        type="button"
+        id="saveFileOutputUnencrypted"
+        className="hidden"
+        onClick={() => {
+          const dataString = JSON.stringify(props.data, null, 2)
+          const blob = new Blob([dataString], { type: 'text/plain' })
+          const url = URL.createObjectURL(blob)
+          const a = document.createElement('a')
+          a.href = url
+          a.download = 'SaveFile.unencrypted.txt'
           document.body.appendChild(a)
           a.click()
           document.body.removeChild(a)

@@ -41,22 +41,38 @@ const FileLoader = (props: IFileLoaderProps) => {
   }
 
   return (
-    <input
-      type="file"
-      accept=".txt"
-      id="saveFileInput"
-      className="hidden"
-      onChange={(e) => {
-        if (!e.target.files?.[0]) return
-        const fileReader = new FileReader()
-        fileReader.onload = (ev: ProgressEvent<FileReader>) => {
-          // setData(Buffer.from(ev.target?.result as ArrayBuffer))
-          const data = Buffer.from(ev.target?.result as ArrayBuffer)
-          handleFileChange(data)
-        }
-        fileReader.readAsArrayBuffer(e.target.files[0])
-      }}
-    />
+    <>
+      <input
+        type="file"
+        accept=".txt"
+        id="saveFileInput"
+        className="hidden"
+        onChange={(e) => {
+          if (!e.target.files?.[0]) return
+          const fileReader = new FileReader()
+          fileReader.onload = (ev: ProgressEvent<FileReader>) => {
+            // setData(Buffer.from(ev.target?.result as ArrayBuffer))
+            const data = Buffer.from(ev.target?.result as ArrayBuffer)
+            handleFileChange(data)
+          }
+          fileReader.readAsArrayBuffer(e.target.files[0])
+        }}
+      />
+      <input
+        type="file"
+        accept=".txt"
+        id="saveFileInputUnencrypted"
+        className="hidden"
+        onChange={(e) => {
+          if (!e.target.files?.[0]) return
+          const fileReader = new FileReader()
+          fileReader.onload = (ev: ProgressEvent<FileReader>) => {
+            props.stateSetter(JSON.parse(ev.target?.result as string))
+          }
+          fileReader.readAsText(e.target.files[0])
+        }}
+      />
+    </>
   )
 }
 
