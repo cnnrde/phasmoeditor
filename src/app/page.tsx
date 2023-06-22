@@ -64,19 +64,19 @@ export default function Home() {
               </label>
               <FileLoader stateSetter={setSaveData} />
             </div>
-            <span className="text-sm mt-4">
+            <p className="text-sm mt-2 break-all">
               On Windows, save data can be located at{' '}
               <code className="bg-gray-900 rounded-md p-1">
                 %appdata%\..\LocalLow\Kinetic Games\Phasmophobia\SaveFile.txt
               </code>
-            </span>
-            <span className="text-sm mt-2">
+            </p>
+            <p className="text-sm mt-2 break-all">
               On Linux (Proton), save data can be located at{' '}
               <code className="bg-gray-900 rounded-md p-1">
                 ~/.steam/steam/steamapps/compatdata/739630/pfx/drive_c/users/steamuser/AppData/LocalLow/Kinetic
                 Games/SaveFile.txt
               </code>
-            </span>
+            </p>
           </div>
         )}
       </div>
