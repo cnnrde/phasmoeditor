@@ -67,7 +67,7 @@ export default function Home() {
             <p className="text-sm mt-2 break-all">
               On Windows, save data can be located at{' '}
               <code className="bg-gray-900 rounded-md p-1">
-                %appdata%\..\LocalLow\Kinetic Games\Phasmophobia\SaveFile.txt
+                %USERPROFILE%\AppData\LocalLow\Kinetic Games\Phasmophobia\SaveFile.txt
               </code>
             </p>
             <p className="text-sm mt-2 break-all">
