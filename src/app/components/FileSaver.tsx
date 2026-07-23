@@ -1,4 +1,5 @@
 import crypto from 'crypto'
+import { dumpES3 } from '../lib/es3json'
 
 interface DataObject {
   __type: string
@@ -20,7 +21,12 @@ const FileSaver = (props: FileSaverProps) => {
         id="saveFileOutput"
         className="hidden"
         onClick={() => {
-          const dataString = JSON.stringify(props.data, null, 2)
+          // dumpES3 (not JSON.stringify) is required here: it restores bare
+          // numeric dictionary keys and object-typed keys (e.g. split 64-bit
+          // item IDs in fields like LocalPlayerOutfit) back to the form the
+          // game's ES3 reader expects. JSON.stringify would leave those as
+          // quoted string keys forever, which the game won't recognize.
+          const dataString = dumpES3(props.data)
           const PASSWORD = 't36gref9u84y7f43g'
           const iv = crypto.randomBytes(16)
           const cipher = crypto.createCipheriv(
@@ -49,6 +55,9 @@ const FileSaver = (props: FileSaverProps) => {
         id="saveFileOutputUnencrypted"
         className="hidden"
         onClick={() => {
+          // Plain JSON here is intentional - this download is for humans to
+          // read/hand-edit, not for the game, so standard pretty JSON (with
+          // the object-key marker visible as an ordinary string) is fine.
           const dataString = JSON.stringify(props.data, null, 2)
           const blob = new Blob([dataString], { type: 'text/plain' })
           const url = URL.createObjectURL(blob)

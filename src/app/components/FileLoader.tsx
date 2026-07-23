@@ -3,6 +3,7 @@
 import crypto from 'crypto'
 import { Buffer } from 'buffer'
 import { Dispatch, SetStateAction } from 'react'
+import { parseES3 } from '../lib/es3json'
 
 interface IFileLoaderProps {
   stateSetter: Dispatch<SetStateAction<any>>
@@ -26,12 +27,12 @@ const FileLoader = (props: IFileLoaderProps) => {
       ])
       // convert decrypted to text
       const decodedText = new TextDecoder().decode(decrypted)
-      // there's an issue (apparently) where playedMaps aren't formatted properly.
-      // this is a hacky fix for that using regex
-      const regex = /"playedMaps"(\s|)\:(\s){\s*.*\s*.*\s*.\s*.*\s*/
-      const fixedText = decodedText.replace(regex, '')
-      props.stateSetter(JSON.parse(fixedText))
-      // now loop through everything in the object, and
+      // ES3 isn't quite plain JSON - it allows bare numeric dictionary keys
+      // (e.g. `{12:2}`) and dictionary keys that are themselves objects
+      // (e.g. split 64-bit item IDs like `{"low":...,"high":...}:{...}`,
+      // seen in fields like LocalPlayerOutfit). parseES3 understands both;
+      // plain JSON.parse throws on real save files that use them.
+      props.stateSetter(parseES3(decodedText))
     } catch (e) {
       console.error(e)
       alert(
