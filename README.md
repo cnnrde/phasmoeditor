@@ -20,7 +20,7 @@ Access the Phasmophobia Save Editor online: [phasmoeditor.cnnd.dev](https://phas
 Before you start using the editor, you need to locate your Phasmophobia save files. Here's how you can find them on different operating systems:
 
 ### Windows
-```%appdata%..\LocalLow\Kinetic Games\Phasmophobia\SaveFile.txt```
+```%USERPROFILE%\AppData\LocalLow\Kinetic Games\Phasmophobia\SaveFile.txt```
 
 ### Linux (Using Proton)
 ```~/.steam/steam/steamapps/compatdata/739630/pfx/drive_c/users/steamuser/AppData/LocalLow/Kinetic Games\SaveFile.txt```
