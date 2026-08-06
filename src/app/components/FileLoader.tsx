@@ -68,7 +68,21 @@ const FileLoader = (props: IFileLoaderProps) => {
           if (!e.target.files?.[0]) return
           const fileReader = new FileReader()
           fileReader.onload = (ev: ProgressEvent<FileReader>) => {
-            props.stateSetter(JSON.parse(ev.target?.result as string))
+              try {
+                  const rawText = ev.target?.result as string
+                  // Optionally sanitize broken fields here if needed
+                  const cleanText = rawText
+                      .replace(/"playedMaps"\s*:\s*{[^}]*},?/, '') // strip badly formatted playedMaps
+                      .replace(/,\s*}/g, '}') // remove trailing commas
+                      .replace(/,\s*]/g, ']') // remove trailing commas in arrays
+
+                  const parsed = JSON.parse(cleanText)
+                  props.stateSetter(parsed)
+              } catch (err) {
+                  console.error('[FileLoader] Failed to parse unencrypted save file:', err)
+                  alert('Failed to read unencrypted save file. Please check formatting.')
+              }
+
           }
           fileReader.readAsText(e.target.files[0])
         }}
